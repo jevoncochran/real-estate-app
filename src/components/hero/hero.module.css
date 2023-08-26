@@ -1,0 +1,86 @@
+.container {
+  height: calc(100vh - 75px);
+  width: 100%;
+}
+
+.wrapper {
+  height: 100%;
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 10rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+}
+
+.left .titles {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.mainTitle {
+  color: var(--primary-orange);
+  font-size: 30px;
+}
+
+.secondaryTitle {
+  color: var(--primary-orange);
+  font-size: 16px;
+}
+
+.description {
+  margin-top: 7.5em;
+  color: white;
+  font-size: 16px;
+  line-height: 32px;
+}
+
+.searchBtn {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  /* margin-top: 5rem; */
+  background-color: var(--primary-orange);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  font-size: 20px;
+  border-radius: 8px;
+}
+
+.results {
+  margin: 7.5rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  color: #888;
+  font-size: 16px;
+}
+
+.results .result {
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  /* gap: 0.5rem; */
+}
+
+.results .result span {
+  text-overflow: clip;
+  margin-right: 0.5rem;
+}
+
+.right {
+  width: 600px;
+  height: 700px;
+}
+
+.right img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
