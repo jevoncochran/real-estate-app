@@ -1,20 +1,17 @@
 "use client";
-import { useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import classes from "./login.module.css";
 import { useRouter } from "next/navigation";
 import { ToastContainer, ToastContent, toast } from "react-toastify";
 import { signIn } from "next-auth/react";
+import { responseType } from "@/constants";
+import { notify } from "@/utils/notify";
 
 const LoginPage = () => {
   const router = useRouter();
   const [credentials, setCredentials] = useState({ email: "", password: "" });
 
-  const responseType = {
-    error: "error",
-    success: "success",
-  };
-
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setCredentials((prev) => {
       return {
         ...prev,
@@ -23,7 +20,7 @@ const LoginPage = () => {
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (credentials.password === "" || credentials.email === "") {
@@ -59,10 +56,6 @@ const LoginPage = () => {
     } catch (error) {
       console.log(error);
     }
-  };
-
-  const notify = (text: ToastContent, response) => {
-    toast[response](text);
   };
 
   return (

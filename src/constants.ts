@@ -1,3 +1,5 @@
+import { ResponseType } from "@/types";
+
 const MIN_PRICE = 0;
 const MAX_PRICE = 1000000;
 
@@ -22,4 +24,9 @@ const countries = [
   "Brazil",
 ];
 
-export { MIN_PRICE, MAX_PRICE, propertyTypes, countries };
+const responseType = {
+  error: ResponseType.Error,
+  success: ResponseType.Success,
+};
+
+export { MIN_PRICE, MAX_PRICE, propertyTypes, countries, responseType };

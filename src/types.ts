@@ -1,4 +1,3 @@
-
 export interface Property {
   id: number;
   image: string;
@@ -9,4 +8,9 @@ export interface Property {
   beds: number;
   country: string;
   type: string;
+}
+
+export enum ResponseType {
+  Success = "success",
+  Error = "error",
 }
