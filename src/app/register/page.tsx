@@ -64,7 +64,7 @@ const RegisterPage = () => {
         notify("Successfully registered, now login", responseType.success);
 
         setTimeout(() => {
-          router.push("/");
+          router.push("/login");
         }, 1000);
       } else {
         notify("Error occurred during sign up", responseType.error);
