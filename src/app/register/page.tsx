@@ -46,7 +46,7 @@ const RegisterPage = () => {
     }
 
     try {
-      const res = await fetch("http://localhost:3000/api/register", {
+      const res: any = await fetch("http://localhost:3000/api/register", {
         headers: {
           "Content-Type": "application/json",
         },
@@ -58,7 +58,9 @@ const RegisterPage = () => {
         }),
       });
 
-      if (res?.error === null) {
+      if (res?.error == null) {
+        const data = await res.json();
+        console.log(data);
         notify("Successfully registered, now login", responseType.success);
 
         setTimeout(() => {
@@ -72,7 +74,28 @@ const RegisterPage = () => {
     }
   };
 
-  return <div>RegisterPage</div>;
+  return (
+    <div className={classes.container}>
+      <div className={classes.wrapper}>
+        <h2>Register Form</h2>
+        <form onSubmit={handleSubmit}>
+          <div className={classes.inputWrapper}>
+            <label htmlFor="username">Username</label>
+            <input type="text" name="username" onChange={handleChange} />
+          </div>
+          <div className={classes.inputWrapper}>
+            <label htmlFor="email">Email</label>
+            <input type="email" name="email" onChange={handleChange} />
+          </div>
+          <div className={classes.inputWrapper}>
+            <label htmlFor="password">Password</label>
+            <input type="password" name="password" onChange={handleChange} />
+          </div>
+          <button className={classes.registerBtn}>Register</button>
+        </form>
+      </div>
+    </div>
+  );
 };
 
 export default RegisterPage;
