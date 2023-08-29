@@ -2,14 +2,16 @@
 import { useState } from "react";
 import classes from "./navbar.module.css";
 import Link from "next/link";
-import { signIn, signOut } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import ListModal from "@/components/listModal/ListModal";
 
 const Navbar = () => {
   const page = usePathname();
-  const isLoggedIn = false;
+  const { data: session } = useSession();
   const [showListModal, setShowListModal] = useState(false);
+
+  console.log(session?.user);
 
   const handleHideListModal = () => {
     setShowListModal((prev) => false);
@@ -30,7 +32,7 @@ const Navbar = () => {
           <h2>Jevon Cochran</h2>
         </Link>
         <div className={classes.right}>
-          {isLoggedIn ? (
+          {session?.user ? (
             // If the user is logged in
             <>
               <span className={classes.username}>Jevon Ccohran</span>
@@ -47,7 +49,7 @@ const Navbar = () => {
           ) : (
             // If the user is not logged in
             <>
-              <span>Hello guest!</span>
+              <span className={classes.greeting}>Hello guest!</span>
               <button className={classes.login} onClick={() => signIn()}>
                 Log in
               </button>

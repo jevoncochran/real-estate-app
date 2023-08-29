@@ -76,3 +76,7 @@
   cursor: pointer;
   color: var(--primary-orange);
 }
+
+.greeting {
+  color: var(--primary-orange);
+}
