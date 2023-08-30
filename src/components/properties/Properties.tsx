@@ -19,7 +19,7 @@ const Properties = ({ properties }: PropertiesProps) => {
         <div className={classes.propertyContainer}>
           {isProperties ? (
             properties.map((property) => (
-              <PropertyCard key={property.id} property={property} />
+              <PropertyCard key={property._id} property={property} />
             ))
           ) : (
             <h2>No properties listed</h2>

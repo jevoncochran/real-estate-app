@@ -2,10 +2,10 @@ import { Session } from "next-auth";
 
 export interface Property {
   _id: string;
-  image: string;
+  img: string;
   title: string;
   desc: string;
-  category: string;
+  propertyType: string;
   sqmeters: number;
   beds: number;
   country: string;
