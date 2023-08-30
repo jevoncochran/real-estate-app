@@ -24,7 +24,7 @@ interface NewProperty {
   sqmeters: number;
   beds: number;
   country: string;
-  type: string;
+  propertyType: string;
 }
 
 const ListModal = ({ handleHideListModal }: ListModalProps) => {
@@ -34,7 +34,7 @@ const ListModal = ({ handleHideListModal }: ListModalProps) => {
     sqmeters: 1,
     beds: 1,
     country: "",
-    type: "",
+    propertyType: "",
   });
   const [photo, setPhoto] = useState<File | null | undefined>(null);
 
@@ -47,10 +47,15 @@ const ListModal = ({ handleHideListModal }: ListModalProps) => {
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
+    let value: string | number = e.target.value;
+    if (e.target.type === "number") {
+      console.log("this is getting changed to number");
+      value = parseInt(value);
+    }
     setNewProperty((prev) => {
       return {
         ...prev,
-        [e.target.name]: e.target.value,
+        [e.target.name]: value,
       };
     });
   };
@@ -71,7 +76,7 @@ const ListModal = ({ handleHideListModal }: ListModalProps) => {
 
       const res = await fetch("http://localhost:3000/api/property", {
         headers: {
-          "Content Type": "application/json",
+          "Content-Type": "application/json",
           Authorization: `Bearer ${session?.user?.accessToken}`,
         },
         method: "POST",
@@ -90,6 +95,7 @@ const ListModal = ({ handleHideListModal }: ListModalProps) => {
 
       router.push(`/details/${property._id}`);
     } catch (error) {
+      console.log("An error has ocurrend");
       console.log(error);
     }
   };
@@ -113,7 +119,7 @@ const ListModal = ({ handleHideListModal }: ListModalProps) => {
 
       const data = await res.json();
 
-      const imageUrl = data["secure-url"];
+      const imageUrl = data["secure_url"];
 
       return imageUrl;
     } catch (error) {
@@ -196,7 +202,7 @@ const ListModal = ({ handleHideListModal }: ListModalProps) => {
             <select
               name="propertyType"
               id="propertyType"
-              value={newProperty.type}
+              value={newProperty.propertyType}
               onChange={handleChange}
               className={classes.propertyType}
             >

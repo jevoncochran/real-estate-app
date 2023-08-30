@@ -16,6 +16,10 @@ const PropertySchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    propertyType: {
+      type: String,
+      required: true,
+    },
     desc: {
       type: String,
       required: true,
