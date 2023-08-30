@@ -29,4 +29,16 @@ const responseType = {
   success: ResponseType.Success,
 };
 
-export { MIN_PRICE, MAX_PRICE, propertyTypes, countries, responseType };
+const CLOUD_NAME = "dqhfx5f07";
+
+const UPLOAD_PRESET = "real-estate-app";
+
+export {
+  MIN_PRICE,
+  MAX_PRICE,
+  propertyTypes,
+  countries,
+  responseType,
+  CLOUD_NAME,
+  UPLOAD_PRESET,
+};
