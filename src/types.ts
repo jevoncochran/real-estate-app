@@ -6,6 +6,7 @@ export interface Property {
   title: string;
   desc: string;
   propertyType: string;
+  price: number;
   sqmeters: number;
   beds: number;
   country: string;

@@ -30,12 +30,13 @@ const DetailsPage = (ctx) => {
   const handleDelete = () => {};
 
   useEffect(() => {
-    const fetchProperty = () => {
-      const match = propertiesData.find(
-        (p) => p.id.toString() === id.toString()
-      );
-      if (match) {
-        setProperty(match);
+    const fetchProperty = async () => {
+      try {
+        const res = await fetch(`http://localhost:3000/api/property/${id}`);
+        const data = await res.json();
+        setProperty(data);
+      } catch (error) {
+        console.log(error);
       }
     };
     fetchProperty();
@@ -48,12 +49,12 @@ const DetailsPage = (ctx) => {
       <div className={classes.wrapper}>
         <div className={classes.imageContainer}>
           <Image
-            src={`/${property?.image}.jpg`}
+            src={property?.img ?? ""}
             alt="Property"
             height="750"
             width="1000"
           />
-          <span className={classes.category}>{property?.type} </span>
+          <span className={classes.category}>{property?.propertyType} </span>
         </div>
         <div className={classes.propertyData}>
           <div className={classes.propertySection}>
