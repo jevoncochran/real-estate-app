@@ -2,14 +2,23 @@ import { Session } from "next-auth";
 
 export interface Property {
   _id: string;
-  image: string;
+  img: string;
   title: string;
   desc: string;
-  category: string;
+  propertyType: string;
+  price: number;
   sqmeters: number;
   beds: number;
   country: string;
   type: string;
+}
+
+export interface CurrentUser {
+  _id: string;
+  username: string;
+  email: string;
+  password?: string;
+  accessToken?: string;
 }
 
 export enum ResponseType {
@@ -26,3 +35,5 @@ export interface ExtendedSession extends Session {
     accessToken: string;
   };
 }
+
+export type Photo = File | null | undefined;

@@ -2,15 +2,29 @@ import db from "@/lib/db";
 import { verifyJwtToken } from "@/lib/jwt";
 import Property from "@/models/Property";
 
+export async function GET(req) {
+  await db.connect();
+
+  try {
+    const properties = await Property.find({})
+      .limit(16)
+      .populate("currentOwner");
+
+    return new Response(JSON.stringify(properties), { status: 200 });
+  } catch (error) {
+    return new Response(JSON.stringify(null), { status: 500 });
+  }
+}
+
 export async function POST(req) {
   await db.connect();
 
-  const tokenString = req.headers.get("Authorization");
-  const token = tokenString.split(" ")[1];
+  const tokenHeader = req.headers.get("Authorization");
+  const token = tokenHeader.split(" ")[1];
 
   const decodedToken = verifyJwtToken(token);
 
-  if (!tokenString || !decodedToken) {
+  if (!tokenHeader || !decodedToken) {
     return new Response(JSON.stringify({ error: "Unauthorized Request" }), {
       status: 500,
     });

@@ -3,20 +3,25 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { propertiesData } from "@/components/properties/propertiesData";
-import { Property } from "@/types";
+import { ExtendedSession, Property } from "@/types";
 import classes from "./details.module.css";
 import Image from "next/image";
 import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
 import { FaBed } from "react-icons/fa";
 import EditModal from "@/components/editModal/EditModal";
+import { useSession } from "next-auth/react";
 
 const DetailsPage = (ctx) => {
   const [property, setProperty] = useState<Property | null>(null);
   const [showEditModal, setShowEditModal] = useState(false);
+
+  const { data: session }: { data: ExtendedSession } = useSession();
+
   const router = useRouter();
 
   const id = ctx.params.id;
 
+  // TODO: Change this to pull currentOwner ID and match to sessin ID
   const isOwner = true;
 
   const handleShowEditModal = () => {
@@ -27,15 +32,33 @@ const DetailsPage = (ctx) => {
     setShowEditModal((prev) => false);
   };
 
-  const handleDelete = () => {};
+  const handleDelete = async () => {
+    try {
+      const res = await fetch(`http://localhost:3000/api/property/${id}`, {
+        headers: {
+          Authorization: `Bearer ${session?.user?.accessToken}`,
+        },
+        method: "DELETE",
+      });
+
+      if (res.ok) {
+        router.push("/");
+      } else {
+        throw new Error("Unable to delete property");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
-    const fetchProperty = () => {
-      const match = propertiesData.find(
-        (p) => p.id.toString() === id.toString()
-      );
-      if (match) {
-        setProperty(match);
+    const fetchProperty = async () => {
+      try {
+        const res = await fetch(`http://localhost:3000/api/property/${id}`);
+        const data = await res.json();
+        setProperty(data);
+      } catch (error) {
+        console.log(error);
       }
     };
     fetchProperty();
@@ -48,12 +71,12 @@ const DetailsPage = (ctx) => {
       <div className={classes.wrapper}>
         <div className={classes.imageContainer}>
           <Image
-            src={`/${property?.image}.jpg`}
+            src={property?.img ?? ""}
             alt="Property"
             height="750"
             width="1000"
           />
-          <span className={classes.category}>{property?.type} </span>
+          <span className={classes.category}>{property?.propertyType} </span>
         </div>
         <div className={classes.propertyData}>
           <div className={classes.propertySection}>
