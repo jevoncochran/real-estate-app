@@ -1,18 +1,13 @@
 import { useState, FormEvent, ChangeEvent } from "react";
 import classes from "./listModal.module.css";
 import { AiOutlineClose, AiOutlineFileImage } from "react-icons/ai";
-import {
-  CLOUD_NAME,
-  UPLOAD_PRESET,
-  countries,
-  propertyTypes,
-  responseType,
-} from "@/constants";
+import { countries, propertyTypes, responseType } from "@/constants";
 import { ToastContainer } from "react-toastify";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { notify } from "@/utils/notify";
-import { ExtendedSession } from "@/types";
+import { ExtendedSession, Photo } from "@/types";
+import { uploadImage } from "@/utils/uploadImage";
 
 interface ListModalProps {
   handleHideListModal: () => void;
@@ -36,7 +31,7 @@ const ListModal = ({ handleHideListModal }: ListModalProps) => {
     country: "",
     propertyType: "",
   });
-  const [photo, setPhoto] = useState<File | null | undefined>(null);
+  const [photo, setPhoto] = useState<Photo>(null);
 
   const { data: session }: ExtendedSession = useSession();
 
@@ -72,7 +67,7 @@ const ListModal = ({ handleHideListModal }: ListModalProps) => {
     }
 
     try {
-      const imageUrl = await uploadImage();
+      const imageUrl = await uploadImage(photo);
 
       const res = await fetch("http://localhost:3000/api/property", {
         headers: {
@@ -96,33 +91,6 @@ const ListModal = ({ handleHideListModal }: ListModalProps) => {
       router.push(`/details/${property._id}`);
     } catch (error) {
       console.log("An error has ocurrend");
-      console.log(error);
-    }
-  };
-
-  const uploadImage = async () => {
-    if (!photo) return;
-
-    const formData = new FormData();
-
-    formData.append("file", photo);
-    formData.append("upload_preset", UPLOAD_PRESET);
-
-    try {
-      const res = await fetch(
-        `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-
-      const data = await res.json();
-
-      const imageUrl = data["secure_url"];
-
-      return imageUrl;
-    } catch (error) {
       console.log(error);
     }
   };

@@ -1,14 +1,15 @@
+import { CurrentUser } from "@/types";
 import jwt from "jsonwebtoken";
 
-export function signJwtToken(payload, options = {}) {
-  const secret = process.env.JWT_SECRET;
+export function signJwtToken(payload: object, options = {}) {
+  const secret: jwt.Secret = process.env.JWT_SECRET as jwt.Secret;
   const token = jwt.sign(payload, secret, options);
   return token;
 }
 
-export function verifyJwtToken(token) {
+export function verifyJwtToken(token: string) {
   try {
-    const secret = process.env.JWT_SECRET;
+    const secret: jwt.Secret = process.env.JWT_SECRET as jwt.Secret;
     const payload = jwt.verify(token, secret);
     return payload;
   } catch (error) {

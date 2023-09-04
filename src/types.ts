@@ -13,6 +13,14 @@ export interface Property {
   type: string;
 }
 
+export interface CurrentUser {
+  _id: string;
+  username: string;
+  email: string;
+  password?: string;
+  accessToken?: string;
+}
+
 export enum ResponseType {
   Success = "success",
   Error = "error",
@@ -27,3 +35,5 @@ export interface ExtendedSession extends Session {
     accessToken: string;
   };
 }
+
+export type Photo = File | null | undefined;
